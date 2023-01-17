@@ -1,0 +1,90 @@
+---
+layout: layout.njk
+title: NMS Tables
+tags: projects
+---
+
+<div class="grid grid-cols-2">
+    <form method="post" enctype="multipart/form-data">
+        <label for="table">
+            <input type="file" name="table" id="table" accept=".exml">
+        </label>
+    </form>
+    <span class="" id="preview"></span>
+</div>
+<script>
+    const input = document.querySelector('input');
+    const preview = document.getElementById('preview');
+    let curFile = input.files;
+
+    input.style.opacity = 1
+
+    if (curFile.length === 0) {
+        addFileWarning()
+    }
+
+    input.addEventListener('change', (event) => {
+        while (preview.firstChild) {
+            preview.removeChild(preview.firstChild)
+        }
+
+        let file = input.files[0]
+
+        let reader = new FileReader()
+        reader.addEventListener('load', (f) => {
+            addFileData(f.target.result)
+        })
+
+        reader.readAsText(file)
+    })
+
+    function addFileWarning() {
+        console.log('Add Warning Element')
+        const warn = document.createElement('p');
+        warn.setAttribute('class', 'text-red-500')
+        warn.setAttribute('id', 'fileMessage')
+        warn.textContent = 'No File Selected!'
+        preview.appendChild(warn)
+    }
+
+    function addFileData(file) {
+        console.log('Adding File Data to Preview')
+        const card_content = setTable(file)
+
+        const card = document.createElement('article')
+        card.setAttribute('id', 'fileData')
+        card.setAttribute('class', 'bg-slate-200 p-2')
+
+        let title_ele = document.createElement('h2')
+        title_ele.setAttribute('class', 'text-2xl text-center')
+        title_ele.setAttribute('id', 'card_title')
+
+        card.appendChild(title_ele)
+        preview.appendChild(card)
+
+        document.getElementById('card_title').textContent = `${card_content.title}`
+    }
+
+    function parseXML(data) {
+        const parser = new DOMParser()
+        return parser.parseFromString(data, "text/xml")
+    }
+
+    function setTable(xml) {
+        let table_content = {};
+        const data = parseXML(xml)
+        const property_elements = data.querySelectorAll('Property')
+        const properties = Object.entries(property_elements)
+        let title = properties[0][1].attributes[0].nodeValue
+        let subTitle = properties[1][1].attributes[0].nodeValue
+
+        table_content.title = title
+        properties.forEach((x, i) => {
+            table_content.propterty = { "id": i, "name": properties[i][1].getAttribute('name'), "value": properties[i][1].getAttribute('value') }
+        })
+
+        console.log(table_content)
+
+        return table_content
+    }
+</script>

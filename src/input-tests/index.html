@@ -1,0 +1,30 @@
+---
+layout: layout.njk
+title: Input Stuffs
+tags: projects
+---
+
+<div>
+    <label for="item">Input Element:
+        <input type="text" name="item" placeholder="item value" id="item_input">
+    </label>
+    <article>
+        <p></p>
+        <section id="errors"></section>
+    </article>
+</div>
+
+<script>
+    const input = document.getElementById('item_input');
+    const output = document.querySelector('article > p');
+    const errors = document.getElementById('errors');
+    const isString = new RegExp('[A-Z]', 'g')
+    input.addEventListener('input', (e) => {
+        output.append(e.data)
+        content = output.innerHTML; // everything is a string type
+        console.log(isString.exec(content))
+        if (isString.exec(content) == null) {
+            errors.appendChild(document.createElement('span'))
+        }
+    })
+</script>
