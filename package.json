@@ -1,0 +1,28 @@
+{
+  "name": "playground",
+  "version": "1.0.0",
+  "description": "A Playground without Sand",
+  "main": "src/index.html",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "dev": "npx @11ty/eleventy --serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unisys12/playground.git"
+  },
+  "keywords": [
+    "playground",
+    "ideas",
+    "unfinished"
+  ],
+  "author": "Phillip Jackson (unisys12)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/unisys12/playground/issues"
+  },
+  "homepage": "https://github.com/unisys12/playground#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.2"
+  }
+}
